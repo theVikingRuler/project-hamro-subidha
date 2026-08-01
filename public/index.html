@@ -25,6 +25,32 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
+    <!-- Tailwind v4 browser compiler (MUST come before index.css) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @import "tailwindcss";
+
+        @theme {
+            /* Brand & Accent Colors */
+            --color-primary: #2563EB;
+            --color-primary-hover: #1D4ED8;
+
+            /* Background Colors */
+            --color-page-bg: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-muted-bg: #F1F5F9;
+
+            /* Footer Specific Backgrounds */
+            --color-footer-bg: #0B132B;
+            --color-footer-card: #1C2541;
+
+            /* Typography & Border Colors */
+            --color-text-main: #0F172A;
+            --color-text-muted: #64748B;
+            --color-border-subtle: #E2E8F0;
+        }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
