@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function About() {
     const [contactSubmitted, setContactSubmitted] = useState(false);
-    const [volunteerSubmitted, setVolunteerSubmitted] = useState(false);
+    // const [volunteerSubmitted, setVolunteerSubmitted] = useState(false);
 
     const CONTACT_METHODS = [
         {
@@ -34,10 +34,10 @@ export default function About() {
     setContactSubmitted(true);
   };
 
-  const handleVolunteerSubmit = (e) => {
-    e.preventDefault();
-    setVolunteerSubmitted(true);
-  };
+//   const handleVolunteerSubmit = (e) => {
+//     e.preventDefault();
+//     setVolunteerSubmitted(true);
+//   };
 
   return (
     <div className="w-full max-w-5xl mx-auto my-16">

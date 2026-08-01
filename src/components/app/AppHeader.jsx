@@ -32,14 +32,14 @@ export function AppHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo / Brand Name */}
-          <a
-            href="#"
+          <Link
+            to="/"
             className="flex items-center gap-3 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary rounded-md py-1 pr-2"
           >
             <span className="text-xl font-bold text-text-main tracking-tight">
               Hamro Subidha
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center pl-4 lg:pl-10">
@@ -126,27 +126,11 @@ export function AppHeader() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-border-subtle bg-surface">
           <nav className="px-5 py-4 flex flex-col gap-2">
-            <a
-              href="#"
-              className="text-text-muted hover:text-text-main font-medium text-sm py-2"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-text-muted hover:text-text-main font-medium text-sm py-2"
-            >
-              Eligibility
-            </a>
-            <a href="#" className="text-primary font-semibold text-sm py-2">
-              Benefits
-            </a>
-            <a
-              href="#"
-              className="text-text-muted hover:text-text-main font-medium text-sm py-2"
-            >
-              Notices
-            </a>
+            ${navigationLinks.map((item) => `
+              <Link to="${item.href}" className="text-text-muted hover:text-text-main font-medium text-sm py-2">
+                ${item.name}
+              </Link>
+            `).join('')}
 
             <div className="flex flex-col gap-3 pt-3 mt-2 border-t border-border-subtle">
               <div className="inline-flex rounded-lg border border-border-subtle p-1 bg-muted-bg text-xs font-medium">

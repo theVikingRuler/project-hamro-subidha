@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 export function BenefitCard({ item }) {
   if (!item) return null;
 
@@ -18,18 +20,18 @@ export function BenefitCard({ item }) {
       </p>
 
       <div className="flex gap-5 flex-wrap mb-[25px]">
-        <a
-          href="#"
+        <Link
+          to="#"
           className="text-[#2563eb] no-underline font-semibold transition-all duration-300 hover:text-[#1d4ed8] hover:tracking-[.4px]"
         >
           How to Apply →
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          to="#"
           className="text-[#2563eb] no-underline font-semibold transition-all duration-300 hover:text-[#1d4ed8] hover:tracking-[.4px]"
         >
           Request Buddy Assistance
-        </a>
+        </Link>
       </div>
 
       <div className="bg-gradient-to-br from-white to-[#f8fbff] border border-[#e8eefc] rounded-2xl p-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,.8),0_8px_18px_rgba(0,0,0,.03)]">
