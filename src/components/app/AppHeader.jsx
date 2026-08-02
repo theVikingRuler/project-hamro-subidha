@@ -25,6 +25,8 @@ export function AppHeader() {
     { name: 'Home', href: '/', active: false },
     { name: 'Eligibility', href: '/eligibility', active: false },
     { name: 'Benefits', href: '/benefits', active: true },
+    { name: 'About', href: '/about', active: false },
+    { name: 'Contact', href: '/contact', active: false },
   ];
 
   return (
