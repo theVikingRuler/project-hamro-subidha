@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <AppHeader />
-      <main className='w-full'>
+      <main className='w-full mx-4 sm:mx-0 flex-grow'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/benefits" element={<Benefits />} />

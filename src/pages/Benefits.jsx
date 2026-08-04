@@ -1,49 +1,21 @@
 import React, { useState, useMemo } from 'react';
 import { BenefitCard } from '../components/benefits/BenefitCard';
+import { useBenefitsData } from '../hooks/useBenefitsData';
 
-const BENEFITS_DATA = [
-  {
-    id: 1,
-    category: 'SCHOLARSHIPS',
-    title: 'National Higher Education Scholarship',
-    description: 'Financial support for eligible students pursuing higher education.',
-    keyRequirement: 'Nepali citizen enrolled in an approved institution.'
-  },
-  {
-    id: 2,
-    category: 'SENIOR',
-    title: 'Senior Citizen Social Security Allowance',
-    description: 'Monthly support for eligible senior citizens through local government.',
-    keyRequirement: 'Age and residency requirements apply.'
-  },
-  {
-    id: 3,
-    category: 'AGRICULTURE',
-    title: 'Small Farmer Equipment Support',
-    description: 'Assistance for tools and equipment that improve farm productivity.',
-    keyRequirement: 'Registered farmer or farming group.'
-  },
-];
 
 const CATEGORIES = ['All', 'Scholarships', 'Senior', 'Agriculture'];
 
 export function Benefits() {
+  const { data } = useBenefitsData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredBenefits = useMemo(() => {
-    return BENEFITS_DATA.filter((item) => {
-      const matchesCategory =
-        selectedCategory === 'All' ||
-        item.category.toLowerCase() === selectedCategory.toLowerCase();
+    if (!data || !Array.isArray(data)) return [];
 
-      const matchesQuery =
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return data;
+  }, [data, searchQuery, selectedCategory]);
 
-      return matchesCategory && matchesQuery;
-    });
-  }, [searchQuery, selectedCategory]);
 
   return (
     <div className="w-full max-w-5xl my-16 mx-auto">
@@ -89,20 +61,21 @@ export function Benefits() {
             );
           })}
         </div>
+
+        {/* Cards Grid */}
+        {filteredBenefits.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredBenefits.map((item) => (
+              <BenefitCard key={item.id} item={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 text-[var(--color-text-muted)]">
+            No benefits found matching your criteria.
+          </div>
+        )}
       </div>
 
-      {/* Cards Grid */}
-      {filteredBenefits.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredBenefits.map((item) => (
-            <BenefitCard key={item.id} item={item} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 text-[var(--color-text-muted)]">
-          No benefits found matching your criteria.
-        </div>
-      )}
     </div>
   );
 }
