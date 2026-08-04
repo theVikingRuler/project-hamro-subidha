@@ -14,7 +14,7 @@ export function Benefits() {
     if (!data || !Array.isArray(data)) return [];
 
     return data;
-  }, [data, searchQuery, selectedCategory]);
+  }, [data]);
 
 
   return (
