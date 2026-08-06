@@ -1,9 +1,20 @@
 import { useState } from "react";
+
 const CATEGORIES = [
     { id: "education", title: "Educational Scholarships & Quotas", disabled: false },
     { id: "agriculture", title: "Agricultural Subsidies & Loans", disabled: false },
     { id: "senior", title: "Senior Citizens", disabled: false },
 ];
+
+const BASE_CLASSES = {
+    input: 'text-lg w-full px-3 py-2 border-2 border-border-subtle rounded-md outline-none focus:ring-2 focus:ring-footer-bg',
+    label: 'font-bold text-text-main text-lg',
+};
+
+// const ACTIVE_CLASSES = {
+//     input: '',
+//     label: '',
+// };
 
 export function EligibilityChecker() {
     
@@ -42,9 +53,26 @@ export function EligibilityChecker() {
         );
     };
 
+    const [formData, setFormData] = useState({
+        age: '',
+        province: '',
+        district: '',
+        household_income: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
 
     return (
-        <>
+        <div
+            className="px-4 md:px-0"
+        >
             {
                 (activeSection === 'chooseBenefitCategory') && 
                 <section
@@ -102,7 +130,106 @@ export function EligibilityChecker() {
                     id="demographicInfo"
                     className="w-full max-w-3xl my-16 mx-auto bg-muted-bg p-8 rounded-lg"
                 >
-                    You're in demographic section.
+                    <div  className="w-full">
+                        <div className="mb-8">
+                            <h1 className="text-text-main text-3xl font-extrabold leading-snug">
+                                Basic Information
+                            </h1>
+                            <p className="text-text-muted text-lg mt-2 max-w-2xl">
+                                Please provide your accurate information to receive all eligible benefits.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    {/* Form Fields */}
+                    <div className="grid space-y-8">
+                        {/* Age */}
+                        <div
+                            className="flex flex-col gap-2"
+                        >
+                            <label htmlFor=""
+                                className={BASE_CLASSES['label']}
+                            >
+                                Enter Age
+                            </label>
+                            <input
+                                name="age"
+                                value={formData.age}
+                                onChange={handleChange}
+                                className={BASE_CLASSES['input']}
+                                type="number" placeholder="Eg. 60"/>
+                        </div>
+
+
+                        {/* Province */}
+                        <div
+                            className="flex flex-col gap-2"
+                        >
+                            <label htmlFor=""
+                                className={BASE_CLASSES['label']}
+                            >
+                                Select Province
+                            </label>
+                            <select
+                                className={`${BASE_CLASSES['input']} px-3 py-3`}
+                                name="province"
+                                value={formData.province}
+                                onChange={handleChange}
+                                >
+                                <option value="" disabled>Select a province</option>
+                                {['koshi', 'madhesh', 'bagmati', 'gandaki', 'lumbini', 'karnali', 'sudurpaschim'].map((item) => (
+                                    <option key={item} value={item}>
+                                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* District */}
+                        <div
+                            className="flex flex-col gap-2"
+                        >
+                            <label htmlFor=""
+                                className={BASE_CLASSES['label']}
+                            >
+                                Select District
+                            </label>
+                            <select
+                                className={`${BASE_CLASSES['input']} px-3 py-3`}
+                                name="province"
+                                value={formData.district}
+                                onChange={handleChange}
+                                >
+                                <option value="" disabled>Select a district</option>
+                                {['koshi', 'madhesh', 'bagmati', 'gandaki', 'lumbini', 'karnali', 'sudurpaschim'].map((item) => (
+                                    <option key={item} value={item}>
+                                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Household Annual Income */}
+                        <div
+                            className="flex flex-col gap-2"
+                        >
+                            <label htmlFor=""
+                                className={BASE_CLASSES['label']}
+                            >
+                                Enter Household Income (Annual)
+                            </label>
+                            <input
+                                name="age"
+                                value={formData.household_income}
+                                onChange={handleChange}
+                                className={BASE_CLASSES['input']}
+                                type="number" placeholder="Eg. 100000"/>
+                        </div>
+
+                    </div>
+                    
+
                 </section>
             }
 
@@ -166,6 +293,6 @@ export function EligibilityChecker() {
                     This section contains education questions
                 </section>
             )} */}
-        </>
+        </div>
     );
 }

@@ -21,14 +21,10 @@ const FEATURED_BENEFITS = [
 
 export function Home() {
   return (
-    <div className="w-full max-w-5xl mx-auto my-8 mb-16 space-y-16">
+    <div className="w-full max-w-5xl mx-auto my-8 mb-16 space-y-16 px-4 lg:px-0">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-slate-50 border border-border-subtle rounded-3xl p-8 sm:p-12 md:p-16 shadow-xs">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-slate-50 border border-border-subtle sm:rounded-xl rounded-3xl px-8 py-12 md:p-16 shadow-xs">
         <div className="max-w-3xl space-y-6">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Public Service Portal
-          </span>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-text-main tracking-tight leading-[1.15]">
             Access Government Benefits with Dignity &amp; Clarity

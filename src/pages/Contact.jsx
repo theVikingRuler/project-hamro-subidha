@@ -40,7 +40,7 @@ export default function Contact() {
 //   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto my-16">
+    <div className="w-full max-w-5xl mx-auto my-16 px-4 md:px-0">
         {/* Header Section */}
         <div className="mb-8">
             <h1 className="text-4xl font-extrabold text-[var(--color-text-main)] tracking-tight mb-3">

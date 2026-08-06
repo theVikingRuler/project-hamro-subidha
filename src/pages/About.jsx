@@ -84,7 +84,7 @@ export default function TeamPage() {
   }, []);
 
   return (
-    <div className="w-full max-w-5xl mx-auto my-16">
+    <div className="w-full max-w-5xl mx-auto my-16 px-4 md:px-0">
 
         {/* Header Section */}
         <div className="mb-8">

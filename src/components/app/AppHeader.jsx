@@ -128,11 +128,15 @@ export function AppHeader() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-border-subtle bg-surface">
           <nav className="px-5 py-4 flex flex-col gap-2">
-            ${navigationLinks.map((item) => `
-              <Link to="${item.href}" className="text-text-muted hover:text-text-main font-medium text-sm py-2">
-                ${item.name}
+            {navigationLinks.map((item) => (
+              <Link
+                key={item.href || item.name}
+                to={item.href}
+                className="text-text-muted hover:text-text-main font-medium text-sm py-2"
+              >
+                {item.name}
               </Link>
-            `).join('')}
+            ))}
 
             <div className="flex flex-col gap-3 pt-3 mt-2 border-t border-border-subtle">
               <div className="inline-flex rounded-lg border border-border-subtle p-1 bg-muted-bg text-xs font-medium">

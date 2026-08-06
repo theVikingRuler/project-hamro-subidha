@@ -16,7 +16,7 @@ export function AppFooter() {
         </div>
 
         {/* Column 2: Quick Links */}
-        <div className="md:col-span-6 text-end space-y-3">
+        <div className="md:col-span-6 text-start md:text-end space-y-3">
           <h3 className="text-sm font-semibold text-white tracking-wider">
             Quick links
           </h3>
