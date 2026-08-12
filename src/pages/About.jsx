@@ -14,15 +14,29 @@ const teamMembers = [
     name: "Atith Adhikari", 
     role: "Co-Mentor", 
     photo: "/team/atith.jpg",
-    bio: "Supported the team through planning and review, offering feedback that kept the project grounded and on track.",
+    bio: "TBD.",
     mentor: true 
   },
   { 
     id: "MEM-01", 
     name: "Aarju Bohora", 
     role: "Research Team", 
-    photo: "/team/aarju.jpg",
-    bio: "Dug through government notices and scholarship rules to map out what's actually available and who qualifies." 
+    photo: "/team/aarju.png",
+    bio: "Aarju has a soft spot for people and a sharp mind for numbers. She's the kind of friend who'll patiently untangle a confusing situation for you, then still make time to talk about the book she's currently obsessed with. On Team Hamro Subidha, she dug through dense scholarship rules and eligibility criteria to map out exactly what benefits exist and who qualifies, work that now shapes the platform's Education section. She brought the same care to shaping the eligibility logic itself and turning confusing rules into simple questions citizens can actually answer." 
+  },
+  { 
+    id: "MEM-04", 
+    name: "Aarya Karki", 
+    role: "Tech Team", 
+    photo: "/team/aarya.jpeg",
+    bio: "Aarya is a mentee and contributor to Hamro Subidha. In the tech team, she codes the website structure, designs the benefit form, and manages benefits data storage. In her free time, she enjoys reading books, listening to music, and learning languages." 
+  },
+  { 
+    id: "MEM-05", 
+    name: "Kapil Dhungana", 
+    role: "Research Team", 
+    photo: "/team/kapil.jpg",
+    bio: "Kapil is an 18-year-old gap-year student and student-athlete, currently serving on the Research Team at Hamro Subidha. He is passionate about research, technology, and developing solutions that improve access to essential services in Nepal."
   },
   { 
     id: "MEM-02", 
@@ -34,30 +48,9 @@ const teamMembers = [
   { 
     id: "MEM-03", 
     name: "Sambriddha Bikram Karki", 
-    role: "Tech Team", 
+    role: "Research Team", 
     photo: "/team/sambriddha.jpg",
-    bio: "Focused on the technical side of the project, helping bring the eligibility screener and directory to life." 
-  },
-  { 
-    id: "MEM-04", 
-    name: "Aarya Karki", 
-    role: "Tech Team", 
-    photo: "/team/aarya.jpg",
-    bio: "Contributed to building and refining the site, making sure the tools work smoothly for users." 
-  },
-  { 
-    id: "MEM-05", 
-    name: "Kapil Dhungana", 
-    role: "Research Team", 
-    photo: "/team/kapil.jpg",
-    bio: "Researched agricultural subsidies and financing programs to understand what support exists and who can access it." 
-  },
-  { 
-    id: "MEM-06", 
-    name: "Genial Poudel", 
-    role: "Research Team", 
-    photo: "/team/genial.jpg",
-    bio: "Helped gather and organize scholarship and benefit information from scattered government and school sources." 
+    bio: "AI/ Health Care enthusiast interested in building tools that make complex medical information more simpler." 
   },
 ];
 
@@ -99,51 +92,48 @@ export default function TeamPage() {
         <div className="w-full">
             {/* Story Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-16">
+
+                {/* Who we are */}
                 <div className="bg-surface border border-border-subtle rounded-[20px] p-8 shadow-xs">
-                <div className="w-10.5 h-10.5 rounded-xl bg-blue-50 flex items-center justify-center text-xl mb-4.5">
-                    🧭
-                </div>
-                <h2 className="text-xl font-bold mb-3">
-                    Who we are
-                </h2>
-                <p className="text-text-muted leading-relaxed text-[15px]">
-                    We're a student-led team that came together around a simple, shared observation: the
-                    benefits meant to help people in Nepal — scholarships after SEE, agricultural loans and
-                    subsidies, municipal grants — already exist in large numbers. What's missing isn't the
-                    money. It's a place to find it.
-                </p>
-                <p className="text-text-muted leading-relaxed text-[15px] mt-3">
-                    Our team spans research, design, and engineering. Two mentors guide the project;
-                    six of us do the digging, building, and writing — pulling primary sources from ministry
-                    notices, municipal websites, and school circulars, then turning that into something a
-                    16-year-old right after their SEE result can actually use.
-                </p>
+                    <h2 className="text-xl font-bold mb-3">
+                        Who we are
+                    </h2>
+                    <p className="text-text-muted leading-relaxed text-[15px]">
+                        We're a student-led team that came together around a simple, shared observation: the
+                        benefits meant to help people in Nepal — scholarships after SEE, agricultural loans and
+                        subsidies, municipal grants — already exist in large numbers. What's missing isn't the
+                        money. It's a place to find it.
+                    </p>
+                    <p className="text-text-muted leading-relaxed text-[15px] mt-3">
+                        Our team spans research, design, and engineering. Two mentors guide the project;
+                        six of us do the digging, building, and writing — pulling primary sources from ministry
+                        notices, municipal websites, and school circulars, then turning that into something a
+                        16-year-old right after their SEE result can actually use.
+                    </p>
                 </div>
 
+                {/* Why this project */}
                 <div className="bg-surface border border-border-subtle rounded-[20px] p-8 shadow-xs">
-                <div className="w-10.5 h-10.5 rounded-xl bg-amber-50 flex items-center justify-center text-xl mb-4.5">
-                    💡
-                </div>
-                <h2 className="text-xl font-bold mb-3">
-                    Why this project
-                </h2>
-                <p className="text-text-muted leading-relaxed text-[15px]">
-                    Every one of us ran into the same wall doing this research: information about who
-                    qualifies for what is scattered across a school notice board, a municipality's website,
-                    and word of mouth — never in one place. Government scholarships, private-school quotas,
-                    city entrance exams, agricultural credit — each has its own rules and no shared directory.
-                </p>
-                <p className="text-text-muted leading-relaxed text-[15px] mt-3">
-                    Because of that, benefits skew toward people who already know how to look — urban,
-                    connected, already banked. Hamro Subidha exists to close that gap: one directory, one
-                    plain-language screener, and a portal that tells you exactly what you qualify for instead
-                    of making you search blindly.
-                </p>
+                    <h2 className="text-xl font-bold mb-3">
+                        Why this project
+                    </h2>
+                    <p className="text-text-muted leading-relaxed text-[15px]">
+                        Every one of us ran into the same wall doing this research: information about who
+                        qualifies for what is scattered across a school notice board, a municipality's website,
+                        and word of mouth — never in one place. Government scholarships, private-school quotas,
+                        city entrance exams, agricultural credit — each has its own rules and no shared directory.
+                    </p>
+                    <p className="text-text-muted leading-relaxed text-[15px] mt-3">
+                        Because of that, benefits skew toward people who already know how to look — urban,
+                        connected, already banked. Hamro Subidha exists to close that gap: one directory, one
+                        plain-language screener, and a portal that tells you exactly what you qualify for instead
+                        of making you search blindly.
+                    </p>
                 </div>
             </section>
 
         {/* Org Chart Section */}
-        <section className="pt-5 pb-14">
+        {/* <section className="pt-5 pb-14">
             <div className="mb-9">
             <div className="text-xs font-semibold text-primary uppercase tracking-wider">
                 REPORTING LINE
@@ -169,24 +159,23 @@ export default function TeamPage() {
             <div className="w-full h-7">
                 <svg className="w-full h-full block" viewBox="0 0 100 28" preserveAspectRatio="none">
                 <line x1="50" y1="0" x2="50" y2="14" stroke="#E2E8F0" strokeWidth="0.6" />
-                <line x1="8" y1="14" x2="92" y2="14" stroke="#E2E8F0" strokeWidth="0.6" />
+                <line x1="8" y1="14" x2="82" y2="14" stroke="#E2E8F0" strokeWidth="0.6" />
                 <line x1="8" y1="14" x2="8" y2="28" stroke="#E2E8F0" strokeWidth="0.6" />
                 <line x1="27.4" y1="14" x2="27.4" y2="28" stroke="#E2E8F0" strokeWidth="0.6" />
                 <line x1="46.8" y1="14" x2="46.8" y2="28" stroke="#E2E8F0" strokeWidth="0.6" />
                 <line x1="66.2" y1="14" x2="66.2" y2="28" stroke="#E2E8F0" strokeWidth="0.6" />
-                <line x1="92" y1="14" x2="92" y2="28" stroke="#E2E8F0" strokeWidth="0.6" />
                 </svg>
             </div>
 
             <div className="flex gap-4 justify-center flex-wrap">
-                {["Aarju Bohora", "Manjil Aryal", "Samriddha Bikram Karki", "Aarya Karki", "Kapil Dhungana", "Genial Poudel"].map((name) => (
+                {["Aarju Bohora", "Manjil Aryal", "Samriddha Bikram Karki", "Aarya Karki", "Kapil Dhungana"].map((name) => (
                 <div key={name} className="text-xs sm:text-sm font-medium text-text-muted bg-muted-bg border border-border-subtle rounded-full px-4.5 py-2 whitespace-nowrap">
                     {name}
                 </div>
                 ))}
             </div>
             </div>
-        </section>
+        </section> */}
 
         {/* Team Grid Section */}
         <section className="pt-5 pb-24" id="team">
@@ -248,38 +237,42 @@ export default function TeamPage() {
             <div
             role="dialog"
             aria-modal="true"
-            className="w-full max-w-[600px] bg-surface border border-border-subtle rounded-3xl p-9 grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-6.5 shadow-2xl relative transform transition-transform duration-250 scale-100 translate-y-0"
+            className="w-full max-w-[680px] max-h-[80vh] overflow-hidden bg-surface border border-border-subtle rounded-3xl p-5 sm:p-7 shadow-2xl relative transform transition-transform duration-250 scale-100 translate-y-0"
             >
             <button
                 onClick={() => setSelectedPerson(null)}
                 aria-label="Close"
-                className="absolute top-4.5 right-4.5 w-8 h-8 rounded-full bg-muted-bg border border-border-subtle text-text-muted hover:text-text-main hover:border-primary flex items-center justify-center transition-colors cursor-pointer"
+                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-muted-bg border border-border-subtle text-text-muted hover:text-text-main hover:border-primary flex items-center justify-center transition-colors cursor-pointer z-10"
             >
                 ✕
             </button>
 
-            <div className={`w-full aspect-square rounded-2xl flex items-center justify-center font-bold text-4xl overflow-hidden ${selectedPerson.mentor ? 'bg-amber-100/70 text-amber-800' : 'bg-blue-50 text-primary'}`}>
-                {selectedPerson.photo ? (
-                    <img
-                        src={selectedPerson.photo}
-                        alt={selectedPerson.name}
-                        className="w-full h-full object-cover" />
-                ) : (
-                    getInitials(selectedPerson.name)
-                )}
-            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-5 sm:gap-6 overflow-y-auto max-h-[72vh] pr-1">
+                <div className={`w-full aspect-[4/5] rounded-2xl flex items-center justify-center overflow-hidden border border-border-subtle ${selectedPerson.mentor ? 'bg-amber-100/70 text-amber-800' : 'bg-blue-50 text-primary'}`}>
+                    {selectedPerson.photo ? (
+                        <img
+                            src={selectedPerson.photo}
+                            alt={selectedPerson.name}
+                            className="w-full h-full object-cover object-center"
+                        />
+                    ) : (
+                        <span className="text-4xl font-bold">{getInitials(selectedPerson.name)}</span>
+                    )}
+                </div>
 
-            <div>
-                
-                <div className="text-2xl font-extrabold text-text-main">
-                {selectedPerson.name}
+                <div className="min-w-0 pt-1">
+                    <div className="text-2xl font-extrabold text-text-main leading-tight">
+                        {selectedPerson.name}
+                    </div>
+                    <div className="text-sm font-semibold text-primary mt-1 mb-4">
+                        {selectedPerson.role}
+                    </div>
+                    <div className="max-h-[42vh] overflow-y-auto pr-2">
+                        <p className="text-text-muted text-[14.5px] leading-relaxed whitespace-normal break-words">
+                            {selectedPerson.bio}
+                        </p>
+                    </div>
                 </div>
-                <div className="text-sm font-semibold text-primary mt-1 mb-4">
-                {selectedPerson.role}
-                </div>
-                <p className="text-text-muted text-[14.5px] leading-relaxed mb-4">
-                {selectedPerson.bio}
-                </p>
             </div>
             </div>
         )}

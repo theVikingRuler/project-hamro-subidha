@@ -29,8 +29,9 @@ export function Benefits() {
         </p>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+      {/* Search Benefits */}
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+
         <div className="w-full md:max-w-lg">
           <input
             type="text"
@@ -40,7 +41,10 @@ export function Benefits() {
             className="w-full px-4 py-2.5 bg-white border border-[var(--color-border-subtle)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all"
           />
         </div>
-        <div className="text-sm font-medium text-[var(--color-text-muted)] flex items-center gap-2 flex-wrap">
+      </div>
+
+      {/* Content */}
+        <div className="text-sm font-medium text-[var(--color-text-muted)] flex items-center gap-2 flex-wrap mb-8">
           {CATEGORIES.map((cat, idx) => {
             const isActive = selectedCategory === cat;
             return (
@@ -74,8 +78,6 @@ export function Benefits() {
             No benefits found matching your criteria.
           </div>
         )}
-      </div>
-
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { benefitsDataService } from '../services/benefitsDataService';
 
 export function useBenefitsData() {
@@ -6,12 +6,27 @@ export function useBenefitsData() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    benefitsDataService.loadLocalData()
+  const fetchData = useCallback(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError(null);
+
+    benefitsDataService.getBenefitsData(controller.signal)
       .then(setData)
-      .catch(setError)
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          setError(err);
+        }
+      })
       .finally(() => setLoading(false));
+
+    return () => controller.abort();
   }, []);
 
-  return { data, loading, error };
+  useEffect(() => {
+    const cleanup = fetchData();
+    return cleanup;
+  }, [fetchData]);
+
+  return { data, loading, error, refetch: fetchData };
 }
