@@ -47,7 +47,7 @@ const teamMembers = [
     name: "Atith Adhikari", 
     role: "Co-Mentor", 
     photo: "/team/atith.jpg",
-    bio: "TBD.",
+    bio: "Atith Adhikari is a rising sophomore at New York University Abu Dhabi, where he studies Computer Science and Economics. He is passionate about building products that make a tangible difference in people's lives. As a co-mentor for Hamro Subidha, he helped the technical team equip the necessary skills and knowledge to store the benefits data, design the eligibility form, and return eligible benefits to the user.",
     mentor: true 
   },
   { 

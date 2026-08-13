@@ -3,11 +3,13 @@ import { BenefitCard } from '../components/benefits/BenefitCard';
 import { useBenefitsData } from '../hooks/useBenefitsData';
 
 const CATEGORIES = ['All', 'Education', 'Senior', 'Agriculture'];
+const ITEMS_PER_PAGE = 12;
 
 export function Benefits() {
   const { data } = useBenefitsData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Read the 'sector' URL search parameter on initial load
   useEffect(() => {
@@ -25,6 +27,11 @@ export function Benefits() {
       }
     }
   }, []);
+
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory]);
 
   // Filter benefits by selected category and search query
   const filteredBenefits = useMemo(() => {
@@ -48,6 +55,21 @@ export function Benefits() {
       return categoryMatch && searchMatch;
     });
   }, [data, selectedCategory, searchQuery]);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredBenefits.length / ITEMS_PER_PAGE);
+
+  // Get current page slice
+  const paginatedBenefits = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredBenefits.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredBenefits, currentPage]);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    // Smooth scroll to top of directory on page change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="w-full max-w-5xl my-16 mx-auto">
@@ -98,12 +120,42 @@ export function Benefits() {
       </div>
 
       {/* Cards Grid */}
-      {filteredBenefits.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredBenefits.map((item) => (
-            <BenefitCard key={item.id} item={item} />
-          ))}
-        </div>
+      {paginatedBenefits.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {paginatedBenefits.map((item) => (
+              <BenefitCard key={item.id} item={item} />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between border-t border-[var(--color-border-subtle)] pt-6 mt-10">
+              <button
+                type="button"
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-sm font-medium border border-[var(--color-border-subtle)] rounded-lg text-[var(--color-text-main)] hover:bg-black/5 disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+              >
+                Previous
+              </button>
+
+              <span className="text-sm text-[var(--color-text-muted)]">
+                Page <span className="font-semibold text-[var(--color-text-main)]">{currentPage}</span> of{' '}
+                <span className="font-semibold text-[var(--color-text-main)]">{totalPages}</span>
+              </span>
+
+              <button
+                type="button"
+                onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-sm font-medium border border-[var(--color-border-subtle)] rounded-lg text-[var(--color-text-main)] hover:bg-black/5 disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center py-12 text-[var(--color-text-muted)]">
           No benefits found matching your criteria.
