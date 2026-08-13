@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 
+import { useBenefitsData } from '../hooks/useBenefitsData';
+
 const CATEGORIES = [
   { id: "education", title: "Educational Scholarships & Quotas", disabled: false },
   { id: "agriculture", title: "Agricultural Subsidies & Loans", disabled: false },
@@ -32,69 +34,6 @@ const BASE_CLASSES = {
   label: "font-bold text-gray-800 text-lg",
 };
 
-// MOCK JSON DATA (Replace with API call in production)
-const BENEFITS_DB = [
-  {
-    id: "b1",
-    program_name: "Dalit Higher Education Scholarship",
-    program_category: "education",
-    program_provider: "Ministry of Education",
-    program_type: "Scholarship",
-    quota_eligibility: ["dalit"],
-    requires_nepali_citizen: true,
-    allowed_provinces: ["All"],
-    allowed_districts: ["All"],
-    household_income_min: null,
-    household_income_max: 300000,
-    age_min: null,
-    age_max: null,
-    schools_attended_type: ["government"],
-    gpa_cutoff: 2.8,
-    program_description: "Full tuition waiver for underprivileged Dalit students who completed SEE from government schools.",
-    requires_entrance_exam: false,
-    disqualifies_pensioners: null,
-  },
-  {
-    id: "b2",
-    program_name: "Senior Citizen Health Stipend",
-    program_category: "senior",
-    program_provider: "Ministry of Health",
-    program_type: "Stipend",
-    quota_eligibility: ["All"],
-    requires_nepali_citizen: true,
-    allowed_provinces: ["bagmati", "gandaki", "lumbini"],
-    allowed_districts: ["All"],
-    household_income_min: null,
-    household_income_max: null,
-    age_min: 68,
-    age_max: null,
-    schools_attended_type: ["All"],
-    gpa_cutoff: null,
-    program_description: "Monthly health stipend for citizens over 68 holding a valid old-age card.",
-    requires_oldage_card: true,
-    disqualifies_pensioners: true,
-  },
-  {
-    id: "b3",
-    program_name: "Farmers Co-op Loan Subsidy",
-    program_category: "agriculture",
-    program_provider: "Agricultural Development Bank",
-    program_type: "Loan",
-    quota_eligibility: ["All"],
-    requires_nepali_citizen: true,
-    allowed_provinces: ["All"],
-    allowed_districts: ["All"],
-    household_income_min: null,
-    household_income_max: null,
-    age_min: 18,
-    age_max: null,
-    program_description: "Interest subsidy for farmers registered in co-operatives with active investments.",
-    agricultural_investment_min: 50000,
-    requires_cooperative_membership: true,
-    disqualifies_pensioners: null,
-  }
-];
-
 export function EligibilityChecker() {
 
   // User Input
@@ -117,6 +56,8 @@ export function EligibilityChecker() {
     requires_oldage_card: null,
     receives_pension: null,
   });
+
+  const { data: BENEFITS_DB } = useBenefitsData();
 
   // Section you are in
   const steps = ["chooseBenefitCategory", "demographicInfo", ...formData.categories, "userProfile"];
@@ -217,7 +158,7 @@ export function EligibilityChecker() {
 
       return true;
     });
-  }, [formData, activeSection]);
+  }, [BENEFITS_DB, formData, activeSection]);
 
   // UI Helpers
   const CustomSelect = ({ label, name, value, options, onChange, placeholder }) => (

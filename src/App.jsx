@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppHeader } from './components/app/AppHeader';
 import { AppFooter } from './components/app/AppFooter';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { Benefits } from './pages/Benefits';
 import { Home } from './pages/Home';
 import { EligibilityChecker } from './pages/EligibilityChecker';
-import About from './pages/About';
 import Contact from './pages/Contact';
 
 function ScrollToTop() {
@@ -20,16 +19,18 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [lang, setLang] = useState('NP');
+
   return (
     <>
       <ScrollToTop />
-      <AppHeader />
+      <AppHeader lang={lang} setLang={setLang} />
+
       <main className='w-full flex-grow'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/benefits" element={<Benefits />} />
           <Route path="/eligibility" element={<EligibilityChecker />} />
-          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route
             path="*"
@@ -41,7 +42,8 @@ function App() {
           />
         </Routes>
       </main>
-      <AppFooter />
+      <AppFooter lang={lang} setLang={setLang} />
+
     </>
   );
 }
