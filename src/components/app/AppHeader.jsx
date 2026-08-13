@@ -61,12 +61,12 @@ export function AppHeader() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <a 
-              href="#search" 
+            <Link
+              to="/eligibility"
               className="hidden sm:inline-flex bg-primary hover:bg-primary-hover text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-all"
             >
               Find My Benefits
-            </a>
+            </Link>
           </div>
 
         </div>

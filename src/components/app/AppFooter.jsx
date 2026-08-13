@@ -18,9 +18,9 @@ export function AppFooter() {
         <div className="text-end">
           <h5 className="text-surface font-semibold mb-3">Sectors</h5>
           <ul className="space-y-2 text-xs">
-            <li><Link to="/benefits" className="hover:text-surface transition-colors">Education & Scholarships</Link></li>
-            <li><Link to="/benefits" className="hover:text-surface transition-colors">Senior Citizen Welfare</Link></li>
-            <li><Link to="/benefits" className="hover:text-surface transition-colors">Agriculture & Subsidies</Link></li>
+            <li><Link to="/benefits?sector=education" className="hover:text-surface transition-colors">Education & Scholarships</Link></li>
+            <li><Link to="/benefits?sector=senior" className="hover:text-surface transition-colors">Senior Citizen Welfare</Link></li>
+            <li><Link to="/benefits?sector=agriculture" className="hover:text-surface transition-colors">Agriculture & Subsidies</Link></li>
           </ul>
         </div>
 

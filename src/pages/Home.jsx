@@ -243,10 +243,10 @@ export function Home() {
                   <li className="flex items-center gap-2.5"><CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> District Hostel & Stipend Quotas</li>
                 </ul>
               </div>
-              <button className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+              <Link to="/benefits?sector=education" className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
                 <span>View Education Schemes</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
 
             {/* Card 2: Senior Citizens */}
@@ -263,10 +263,10 @@ export function Home() {
                   <li className="flex items-center gap-2.5"><CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> Public Transport Discount Cards</li>
                 </ul>
               </div>
-              <button className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+              <Link to="/benefits?sector=senior" className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
                 <span>View Senior Benefits</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
 
             {/* Card 3: Agriculture */}
@@ -283,10 +283,10 @@ export function Home() {
                   <li className="flex items-center gap-2.5"><CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> Local Cooperative Fertilizer Access</li>
                 </ul>
               </div>
-              <button className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+              <Link to="/benefits?sector=agriculture" className="w-full py-3 px-4 bg-muted-bg hover:bg-border-subtle text-primary font-semibold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
                 <span>View Agri Subsidies</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
 
           </div>
