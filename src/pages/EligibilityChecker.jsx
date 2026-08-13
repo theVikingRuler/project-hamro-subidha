@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { useBenefitsData } from '../hooks/useBenefitsData';
+import { BenefitCard } from "../components/benefits/BenefitCard";
 
 const CATEGORIES = [
   { id: "education", title: "Educational Scholarships & Quotas", disabled: false },
@@ -36,20 +37,19 @@ const BASE_CLASSES = {
 
 export function EligibilityChecker() {
 
-  // User Input
   const [formData, setFormData] = useState({
-    categories: [],
-    is_nepali_citizen: null,
-    age: "",
-    province: "",
-    district: "",
-    household_income: "",
-    quota_group: [],
-    disability_card_type: "",
-    grade_level: "",
-    school_type: "",
-    gpa: "",
-    entrance_exam_taken: null,
+    categories: ['education'],
+    is_nepali_citizen: true,
+    age: 16,
+    province: "bagmati",
+    district: "Kathmandu",
+    household_income: 2000000,
+    quota_group: ['janajati'],
+    disability_card_type: "none",
+    grade_level: "10",
+    school_type: "government",
+    gpa: "3.9",
+    entrance_exam_taken: 'yes',
     agricultural_investment: "",
     requires_land_ownership: null,
     requires_cooperative_membership: null,
@@ -59,11 +59,13 @@ export function EligibilityChecker() {
 
   const { data: BENEFITS_DB } = useBenefitsData();
 
-  // Section you are in
-  const steps = ["chooseBenefitCategory", "demographicInfo", ...formData.categories, "userProfile"];
+  const steps = ["chooseBenefitCategory", "demographicInfo", ...formData.categories, "userProfile", "eligibleBenefits"];
   const [activeSection, setActiveSection] = useState(steps[0]);
 
-  // Which page are you at, is it the first page, last page
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeSection]);
+
   const currentIndex = steps.indexOf(activeSection);
   const isFirstStep = currentIndex <= 0;
   const isLastStep = currentIndex === steps.length - 1;
@@ -102,57 +104,46 @@ export function EligibilityChecker() {
     });
   };
 
-  const handleSubmit = () => {
-    const payload = { ...formData, quota_group: formData.quota_group.join(',') };
-    console.log("Submitting Profile:", payload);
-    alert("Application Profile Submitted Successfully!");
-  };
-
   // --- FILTERING LOGIC ---
   const eligibleBenefits = useMemo(() => {
-    if (activeSection !== "userProfile") return [];
+    if (activeSection !== "eligibleBenefits" && activeSection !== "userProfile") return [];
 
     return BENEFITS_DB.filter((benefit) => {
-      // 1. Category Match
       if (!formData.categories.includes(benefit.program_category)) return false;
 
-      // 2. Citizenship
       if (benefit.requires_nepali_citizen && formData.is_nepali_citizen !== true) return false;
+      
+      if (!benefit.allowed_provinces.includes("all") && !benefit.allowed_provinces.includes(formData.province)) return false;
 
-      // 3. Province Matching
-      if (!benefit.allowed_provinces.includes("All") && !benefit.allowed_provinces.includes(formData.province)) return false;
+      if (!benefit.allowed_districts.includes("all") && !benefit.allowed_districts.includes(formData.district.toLowerCase())) return false;
 
-      // 4. Age Limits
-      const userAge = Number(formData.age);
+      const userAge = formData.age !== "" ? Number(formData.age) : null;
       if (benefit.age_min !== null && userAge < benefit.age_min) return false;
       if (benefit.age_max !== null && userAge > benefit.age_max) return false;
 
-      // 5. Income Limits
       const userIncome = Number(formData.household_income || 0);
       if (benefit.household_income_max !== null && userIncome > benefit.household_income_max) return false;
 
-      // 6. Quota Group
-      if (!benefit.quota_eligibility.includes("All")) {
-        const hasMatchingQuota = benefit.quota_eligibility.some(q => formData.quota_group.includes(q));
+      if (!benefit.quota_eligibility.includes("all")) {
+        const allowedQuotas = benefit.quota_eligibility.split(",").map(q => q.trim());
+        const hasMatchingQuota = allowedQuotas.some(q => formData.quota_group.includes(q));
         if (!hasMatchingQuota) return false;
       }
 
-      // 7. Education Specifics
       if (benefit.program_category === "education") {
-        if (benefit.schools_attended_type && !benefit.schools_attended_type.includes("All") && !benefit.schools_attended_type.includes(formData.school_type)) return false;
+        if (benefit.schools_attended_type && !benefit.schools_attended_type.includes("all") && !benefit.schools_attended_type.includes(formData.school_type)) return false;
         if (benefit.gpa_cutoff !== null && Number(formData.gpa || 0) < benefit.gpa_cutoff) return false;
       }
 
-      // 8. Senior Citizen Specifics
       if (benefit.program_category === "senior") {
         if (benefit.requires_oldage_card && !formData.requires_oldage_card) return false;
         if (benefit.disqualifies_pensioners && formData.receives_pension) return false;
       }
 
-      // 9. Agriculture Specifics
       if (benefit.program_category === "agriculture") {
         const userInvestment = Number(formData.agricultural_investment || 0);
         if (benefit.agricultural_investment_min !== null && userInvestment < benefit.agricultural_investment_min) return false;
+        if (benefit.agricultural_investment_max !== null && userInvestment > benefit.agricultural_investment_max) return false;
         if (benefit.requires_cooperative_membership && !formData.requires_cooperative_membership) return false;
       }
 
@@ -202,25 +193,43 @@ export function EligibilityChecker() {
     </div>
   );
 
-  // Profile Display Helpers
+  // Safe Profile Display Helpers formatted in Uppercase
   const displayValue = (val) => {
-    if (val === true) return "Yes";
-    if (val === false) return "No";
-    if (val === null || val === "") return "N/A";
-    return val.toString();
+    if (val === true || val === "yes" || val === "YES") return "YES";
+    if (val === false || val === "no" || val === "NO") return "NO";
+    if (val === null || val === undefined || val === "") return "N/A";
+    return val.toString().toUpperCase();
   };
 
-  const getProvinceLabel = (val) => PROVINCES.find((p) => p.value === val)?.label || "N/A";
+  const getProvinceLabel = (val) => {
+    const match = PROVINCES.find((p) => p.value === val?.toLowerCase())?.label;
+    return match ? match.toUpperCase() : "N/A";
+  };
   
   const getQuotaLabels = (arr) => {
-    if (!arr || arr.length === 0) return "None";
-    return arr.map(val => QUOTA_OPTIONS.find(opt => opt.value === val)?.label || val).join(", ");
+    if (!arr || arr.length === 0) return "NONE";
+    return arr
+      .map(val => QUOTA_OPTIONS.find(opt => opt.value === val)?.label || val)
+      .join(", ")
+      .toUpperCase();
+  };
+
+  const getGradeLabel = (val) => {
+    const map = { primary: "Primary Level", "10": "Class 10 (SEE)", "plus-two": "+2 / Higher Secondary", bachelor: "Bachelor's Degree" };
+    const label = map[val] || val || "N/A";
+    return label.toUpperCase();
+  };
+
+  const getSchoolTypeLabel = (val) => {
+    const map = { government: "Government / Public", private: "Private / Institutional" };
+    const label = map[val] || val || "N/A";
+    return label.toUpperCase();
   };
 
   const ProfileRow = ({ label, value }) => (
     <div className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
       <span className="text-gray-600 font-medium">{label}</span>
-      <span className="text-gray-900 font-semibold text-right">{value}</span>
+      <span className="text-gray-900 font-semibold text-right uppercase">{value}</span>
     </div>
   );
 
@@ -355,48 +364,16 @@ export function EligibilityChecker() {
         </section>
       )}
 
-      {/* Final Step: Results & Review */}
+      {/* Profile Review Step */}
       {activeSection === "userProfile" && (
         <section className="w-full max-w-3xl my-16 mx-auto bg-gray-50 p-8 rounded-xl shadow-sm border border-gray-200">
-          
-          {/* Eligibility Results Module */}
-          <div className="mb-12">
-            <h1 className="text-gray-900 text-3xl font-extrabold leading-snug text-center mb-6">
-              Your Eligible Benefits
-            </h1>
-            {eligibleBenefits.length > 0 ? (
-              <div className="space-y-4">
-                {eligibleBenefits.map((benefit) => (
-                  <div key={benefit.id} className="bg-green-50 border-2 border-green-500 rounded-xl p-5 shadow-sm">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <span className="text-xs font-bold text-green-700 uppercase tracking-wider">{benefit.program_provider}</span>
-                        <h3 className="text-xl font-bold text-gray-900 mt-1">{benefit.program_name}</h3>
-                        <p className="text-gray-700 mt-2">{benefit.program_description}</p>
-                      </div>
-                      <span className="bg-green-600 text-white text-sm font-semibold px-3 py-1 rounded-full">
-                        {benefit.program_type}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="bg-orange-50 border-2 border-orange-300 rounded-xl p-6 text-center shadow-sm">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">No exact matches found</h3>
-                <p className="text-gray-600">Based on your provided details, we couldn't match you automatically with specific programs at this time.</p>
-              </div>
-            )}
-          </div>
-
-          <hr className="my-8 border-gray-200" />
-
-          {/* Existing Summary Logic */}
           <div className="mb-8">
             <h2 className="text-gray-900 text-2xl font-bold">Review Your Profile</h2>
+            <p className="text-gray-600 mt-1">Please confirm all your entered details before checking eligibility.</p>
           </div>
 
           <div className="space-y-6">
+            {/* Basic Information Section */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Basic Information</h2>
               <ProfileRow label="Nepali Citizen" value={displayValue(formData.is_nepali_citizen)} />
@@ -405,10 +382,69 @@ export function EligibilityChecker() {
               <ProfileRow label="District" value={displayValue(formData.district)} />
               <ProfileRow label="Annual Income" value={formData.household_income ? `NPR ${formData.household_income}` : "N/A"} />
               <ProfileRow label="Quota Eligibility" value={getQuotaLabels(formData.quota_group)} />
-              <ProfileRow label="Disability Card" value={formData.disability_card_type ? formData.disability_card_type.charAt(0).toUpperCase() + formData.disability_card_type.slice(1) : "None"} />
+              <ProfileRow label="Disability Card" value={displayValue(formData.disability_card_type)} />
             </div>
-            {/* ... other summary render blocks remain exactly the same as in your original code ... */}
+
+            {/* Education Section */}
+            {formData.categories.includes("education") && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Education Details</h2>
+                <ProfileRow label="Highest Qualification" value={getGradeLabel(formData.grade_level)} />
+                <ProfileRow label="School Type" value={getSchoolTypeLabel(formData.school_type)} />
+                <ProfileRow label="Obtained GPA" value={displayValue(formData.gpa)} />
+                <ProfileRow label="Entrance Exam Passed" value={displayValue(formData.entrance_exam_taken)} />
+              </div>
+            )}
+
+            {/* Senior Section */}
+            {formData.categories.includes("senior") && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Senior Citizen Details</h2>
+                <ProfileRow label="Old-Age Identity Card" value={displayValue(formData.requires_oldage_card)} />
+                <ProfileRow label="Receives Pension" value={displayValue(formData.receives_pension)} />
+              </div>
+            )}
+
+            {/* Agriculture Section */}
+            {formData.categories.includes("agriculture") && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Agriculture Details</h2>
+                <ProfileRow label="Agricultural Investment" value={formData.agricultural_investment ? `NPR ${formData.agricultural_investment}` : "N/A"} />
+                <ProfileRow label="Owns Agricultural Land" value={displayValue(formData.requires_land_ownership)} />
+                <ProfileRow label="Cooperative Membership" value={displayValue(formData.requires_cooperative_membership)} />
+              </div>
+            )}
           </div>
+        </section>
+      )}
+
+      {/* Standalone Step: Eligible Benefits */}
+      {activeSection === "eligibleBenefits" && (
+        <section className="w-full max-w-3xl my-16 mx-auto bg-gray-50 p-8 rounded-xl shadow-sm border border-gray-200">
+          <div className="mb-8 text-center">
+            <h1 className="text-gray-900 text-3xl font-extrabold leading-snug">
+              Your Eligible Benefits
+            </h1>
+            <p className="text-gray-600 text-lg mt-2">
+              Based on your details, here are the programs you qualify for.
+            </p>
+          </div>
+
+          {eligibleBenefits.length > 0 ? (
+            <div className="space-y-4">
+              {eligibleBenefits.map((benefit) => (
+                <BenefitCard
+                  key={benefit.id}
+                  item={benefit}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-orange-50 border-2 border-orange-300 rounded-xl p-6 text-center shadow-sm">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">No exact matches found</h3>
+              <p className="text-gray-600">Based on your provided details, we couldn't match you automatically with specific programs at this time.</p>
+            </div>
+          )}
         </section>
       )}
 
@@ -422,12 +458,14 @@ export function EligibilityChecker() {
           &lt; Back
         </button>
 
-        <button
-          onClick={isLastStep ? handleSubmit : handleNext}
-          className="px-8 py-3 bg-blue-700 font-bold text-white rounded-lg hover:bg-blue-800 transition-colors shadow-md"
-        >
-          {isLastStep ? "Confirm & Submit" : "Continue >"}
-        </button>
+        {!isLastStep && (
+          <button
+            onClick={handleNext}
+            className="px-8 py-3 bg-blue-700 font-bold text-white rounded-lg hover:bg-blue-800 transition-colors shadow-md"
+          >
+            Continue &gt;
+          </button>
+        )}
       </div>
     </div>
   );
