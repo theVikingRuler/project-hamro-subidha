@@ -141,7 +141,7 @@ export function Home() {
                 <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 100% Free Access
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 70+ Schemes Mapped
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 40+ Schemes Mapped
               </span>
             </div>
 
